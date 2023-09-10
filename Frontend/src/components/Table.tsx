@@ -17,7 +17,7 @@ const Table: React.FC<Props> = ({data}) => {
           </tr>
         </thead>
         <tbody className="bg-white">
-          {data.map((item: Campaign, index: number) => (
+          {data?.map((item: Campaign, index: number) => (
             <tr className="border-b-[1px] border-gray1" key={index}>
               <td className="p-4">{item.title}</td>
               <td className="p-4">{item.description}</td>
