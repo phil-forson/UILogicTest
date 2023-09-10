@@ -11,7 +11,7 @@ const Table: React.FC<Props> = ({data}) => {
         <thead>
           <tr className=" bg-gray4 border-[2px] border-b-[0px] border-gray3 text-left rounded-t-lg ">
             <th className="p-4 w-[193px]">Campaign Title</th>
-            <th className="p-4 w-[193px]">Description</th>
+            <th className="p-4 w-[449px]">Description</th>
             <th className="p-4 w-[193px]">Target Group</th>
             <th className="p-4 w-[193px]">Campaign Status</th>
           </tr>
