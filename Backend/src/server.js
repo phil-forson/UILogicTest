@@ -1,35 +1,38 @@
-const express = require('express')
+// Importing required modules
+const express = require('express');  // Express for creating the web server
+const dotenv = require('dotenv').config();  // Dotenv for environment variables
+const colors = require('colors');  // Colors for console output styling (not used in this snippet)
+const cors = require('cors');  // CORS for handling cross-origin requests
+const { graphqlHTTP } = require('express-graphql');  // Middleware for handling GraphQL HTTP requests
 
-const dotenv = require('dotenv').config()
+// Importing custom middleware and utility functions
+const { errorHandler } = require('./middleware/errorMiddleware');  // Custom error handling middleware
+const connectTODB = require('./config/db');  // Function to connect to the database
+const schema = require('./schema');  // GraphQL schema
 
-const colors = require('colors')
+// Setting up port from environment variables or default to 8000
+const port = process.env.PORT || 8000;
 
-const cors = require('cors')
+// Initializing the Express app
+const app = express();
 
-const { graphqlHTTP } = require('express-graphql');
+// Connecting to the database
+connectTODB();
 
-const {errorHandler} = require('./middleware/errorMiddleware')
+// Middleware to parse JSON payloads in incoming HTTP requests
+app.use(express.json());
 
-const connectTODB = require('./config/db')
+// Enabling CORS for all routes
+app.use(cors());
 
-const schema = require('./schema');
-
-const port = process.env.PORT || 8000
-
-const app = express()
-
-connectTODB()
-
-app.use(express.json())
-
-app.use(cors())
-
+// Setting up the GraphQL endpoint with schema and enabling GraphiQL interface
 app.use('/graphql', graphqlHTTP({
     schema,
     graphiql: true,
-  }));
+}));
 
+// Using custom error handling middleware
+app.use(errorHandler);
 
-app.use(errorHandler)
-
-app.listen(port, () => console.log(`Server started on ${port}`))
+// Starting the server and listening on the specified port
+app.listen(port, () => console.log(`Server started on ${port}`));

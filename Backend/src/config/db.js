@@ -1,15 +1,23 @@
-const mongoose = require('mongoose')
+// Importing the mongoose library for MongoDB interaction
+const mongoose = require('mongoose');
 
+// Asynchronous function to connect to MongoDB
 const connectTODB = async () => {
     try {
-        const conn = await mongoose.connect(process.env.MONGO_URI)
+        // Attempt to establish a connection to MongoDB
+        const conn = await mongoose.connect(process.env.MONGO_URI);
 
-        console.log("MongoDB Connected: ", `${conn.connection.host}`.blue.underline)
+        // Log success message if connected
+        console.log("MongoDB Connected: ", `${conn.connection.host}`.blue.underline);
     }
-    catch(error){
-        console.log(error)
-        process.exit(1)
-    }
-}
+    catch(error) {
+        // Log the error if connection fails
+        console.log(error);
 
-module.exports = connectTODB
+        // Exit the process with failure code
+        process.exit(1);
+    }
+};
+
+// Export the connectTODB function for use in other files
+module.exports = connectTODB;
