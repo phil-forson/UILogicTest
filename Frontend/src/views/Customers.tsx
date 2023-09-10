@@ -58,7 +58,6 @@ const Customers = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchCampaigns();
-      console.log('data ', data)
       setCampaigns(data);
     };
 
@@ -133,8 +132,8 @@ const Customers = () => {
               {currentPage + 1}
             </div>
             <div className="w-8 h-8  rounded-full bg-white text-green1 flex justify-center items-center space-x-[2px]">
-              {Array.from({ length: 3 }).map((item) => (
-                <img src={DotIcon} className="w-[2px] h-[4px]" />
+              {Array.from({ length: 3 }).map((item: any, index: number) => (
+                <img src={DotIcon} className="w-[2px] h-[4px]" key={index}/>
               ))}
             </div>
           </>

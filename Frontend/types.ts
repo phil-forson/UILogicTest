@@ -5,3 +5,9 @@ export interface Campaign {
     targetGroup: string;
     status: string;
   }
+
+  export interface CreateCampaignInput {
+    title: string;
+    description: string;
+    targetGroup: string;
+  }
