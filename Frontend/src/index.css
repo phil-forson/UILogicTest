@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+  font-family: 'Matter';  /* Define a name for the font */
+  src: url('./assets/fonts/matter-font/Matter-Regular.otf') format('truetype');  /* URL to the font file */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Matter";
+  font-size: 14px;
+  box-sizing: border-box;
+}
