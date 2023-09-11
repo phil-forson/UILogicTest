@@ -30,14 +30,22 @@ const RootQuery = new GraphQLObjectType({
       // Query to fetch all campaigns
       type: new GraphQLList(CampaignType), // Returns a list of CampaignType
       args: {
-        skip: { type: GraphQLInt },
+        searchTerm: { type: GraphQLString },
+        offset: { type: GraphQLInt }, // Changed from 'skip' to 'offset'
         limit: { type: GraphQLInt },
       },
       resolve(parent, args) {
         // Resolver function to fetch data
         return Campaign.find({})
-          .skip(args.skip) // Skip the first 'skip' records
-          .limit(args.limit); // Limit to 'limit' records
+          .skip(args.offset) 
+          .limit(args.limit);
+      },
+    },
+    totalCampaigns: {
+      // New field to get the total number of campaigns
+      type: GraphQLInt, // Returns an integer
+      resolve() {
+        return Campaign.countDocuments(); // Use Mongoose's countDocuments() to get the total count
       },
     },
   },
@@ -55,6 +63,7 @@ const Mutation = new GraphQLObjectType({
         title: { type: new GraphQLNonNull(GraphQLString) },
         description: { type: new GraphQLNonNull(GraphQLString) },
         targetGroup: { type: new GraphQLNonNull(GraphQLString) },
+        status: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve(parent, args) {
         // Resolver function to perform the mutation
@@ -63,7 +72,7 @@ const Mutation = new GraphQLObjectType({
           title: args.title,
           description: args.description,
           targetGroup: args.targetGroup,
-          status: "Active", // Setting status as "Active" by default
+          status: args.status, // Setting status as "Active" by default
         });
         return campaign.save(); // Saving the new campaign to the database
       },

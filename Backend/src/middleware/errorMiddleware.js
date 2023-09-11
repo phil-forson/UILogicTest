@@ -6,6 +6,8 @@ const errorHandler = (err, req, res, next) => {
     // Set the response status code
     res.status(statusCode);
 
+    console.error(err.stack);
+
     // Send the error message and stack trace as JSON response
     res.json({
         message: err.message,  // Error message
