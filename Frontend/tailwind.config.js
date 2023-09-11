@@ -2,6 +2,15 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    screens: {
+      'xs': '320px',
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1270px',
+      'xl': '1420px',
+      '2xl': '1536px',
+      '3xl': '1920px',
+    },
     extend: {
       fontFamily: {
         custom: ["Matter", "sans-serif"],

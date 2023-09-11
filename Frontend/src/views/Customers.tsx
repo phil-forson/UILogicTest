@@ -1,23 +1,48 @@
 import { useEffect, useState } from "react";
-import SearchIcon from "../assets/images/searchIcon.svg";
-import DotIcon from "../assets/images/dot.svg";
 
 import Table from "../components/Table";
-import ArrowLeftIcon from "../assets/images/icons/ArrowLeftIcon";
-import ArrowRight from "../assets/images/icons/ArrowRight";
 import Modal from "../components/Modal";
 import CreateCampaignIcon from "../assets/images/icons/CreateCampaignIcon";
 import { Campaign } from "../../types";
-import { fetchCampaigns } from "../helpers/fetchCampaigns";
+import { getCampaigns } from "../helpers/fetchCampaigns";
+import SearchBar from "../components/Searchbar";
+import TabNavigation from "../components/TabNavigation";
+import { Header } from "../components/Header";
+import { Subheader } from "../components/Subheader";
+import Pagination from "../components/Pagination";
 
 const Customers = () => {
   const [activeTab, setActiveTab] = useState<string>("Campaigns");
 
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
 
+  const [campaignDataLoading, setCampaignDataLoading] = useState<boolean>(false);
+
+  const [totalCampaigns, setTotalCampaigns] = useState(0);  // New state for total number of campaigns
+
+  const [searchTerm, setSearchTerm] = useState('');
+
 
   const [isModalOpen, setModalOpen] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+      console.log('window width ', window.innerWidth)
+    };
+
+    // Attach the event listener
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []); 
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -27,129 +52,73 @@ const Customers = () => {
     setModalOpen(false);
   };
 
-  // Create a random array of length 90
-  const randomArray = Array.from({ length: 90 }, () =>
-    Math.floor(Math.random() * 100)
-  );
-
   // Items per page
-  const itemsPerPage = 10;
+  const itemsPerPage = 9;
 
-  // Total pages
-  const totalPages = Math.ceil(randomArray.length / itemsPerPage);
 
   // Current page state
-  const [currentPage, setCurrentPage] = useState(1);
 
   // Function to update the current page
   const handlePageChange = (newPage: number) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      console.log("new page ", newPage);
-      setCurrentPage(newPage);
-    }
+    setCurrentPage(newPage);
+
   };
-
-  // Calculate the items to show for the current page
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const itemsToDisplay = randomArray.slice(startIndex, endIndex);
-
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchCampaigns();
-      setCampaigns(data);
+
+  })
+
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      setCampaignDataLoading(true)
+      const fetchedCampaigns = await getCampaigns(
+        (currentPage - 1) * itemsPerPage,
+        itemsPerPage
+      );
+      console.log('fetched campaigns ', fetchedCampaigns)
+      setCampaigns(fetchedCampaigns.campaigns);
+      setTotalCampaigns(fetchedCampaigns.total)
+      setCampaignDataLoading(false)
     };
 
-    fetchData();
-  }, []);
+    fetchCampaigns();
+  }, [currentPage]);
 
-  const renderActiveTab = (text: string) => {
-    const isActive = activeTab === text;
-    return (
-      <a
-        className={` pb-[20px] px-[12px] cursor-pointer ${
-          isActive
-            ? " border-b-[2px] border-green1 text-black1 "
-            : "text-primary3"
-        }`}
-        onClick={() => setActiveTab(text)}
-      >
-        {text}
-      </a>
-    );
+  
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('e ', e.target.value)
+    setSearchTerm(e.target.value);
   };
+
   return (
-    <div className="px-[250px] bg-primary5 w-full pt-[32px] pb-[136px] text-[20px] text-black1">
-      <div className="">Customers</div>
-      <div className="pt-[16px] text-primary3">
-        See all your customers in one place
-      </div>
-      <div className="pt-[40px] flex space-x-[12px] border-b-[2px] border-gray2">
-        {renderActiveTab("Customer Log")}
-        {renderActiveTab("Campaigns")}
-      </div>
-      <div className="pt-[24px] flex justify-between h-auto ">
-        <div className="flex gap-[8px]">
-          <div className="h-full w-[530px] border-[2px] border-gray2 rounded-[6px] flex items-center space-x-[10px] bg-white p-[16px] ">
-            <img src={SearchIcon} className="w-[20px] h-[20px]" />
-            <input
-              className="outline-none h-full w-full text-primary3"
-              placeholder="Search customer log by customer name, email address & phone number"
-            />
-          </div>
-          <div className="p-[16px] bg-white rounded-[6px] text-green1 border-[1px] border-green1 ">
-            Search
-          </div>
-        </div>
+    <div className="px-[80px] sm:px-[120px] md:px-[160px] lg:px-[250px] bg-primary5 w-full pt-[32px] pb-[136px] text-[20px] text-black1 min-h-[90vh] ">
+      <Header text="Customers" />
+      <Subheader text="See all your customers in one place" />
+      <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
+      <div className="pt-[24px] flex justify-between h-auto flex-col lg:flex-row ">
+        <SearchBar searchValue={searchTerm} onChange={handleSearch}  />
         <div
-          className="bg-green1 p-[16px] space-x-[10px] flex items-center justify-center rounded-[6px] cursor-pointer "
+          className="bg-green1 p-[16px] space-x-[10px] flex items-center justify-center rounded-[6px] cursor-pointer mt-4 lg:mt-0 w-fit"
           onClick={handleOpenModal}
         >
           <span>
-          <CreateCampaignIcon className="text-white"/>
+            <CreateCampaignIcon className="text-white" />
           </span>
           <span className=" text-white">Create a campaign</span>
         </div>
       </div>
       <div className="pt-[24px]">
-        <Table data={campaigns} />
+        <Table data={campaigns} isLoading={campaignDataLoading}/>
       </div>
-      <div className="flex items-center justify-end pt-[24px] space-x-[8px] text-white">
-        <ArrowLeftIcon
-          className="text-black cursor-pointer"
-          onClick={() => handlePageChange(currentPage - 1)}
-        />
-        <div className="w-8 h-8 rounded-full bg-green1 flex justify-center items-center cursor-pointer">
-          {currentPage}
-        </div>
-        {currentPage < totalPages && (
-          <>
-            <div
-              className="w-8 h-8 rounded-full bg-white text-green1 flex justify-center items-center cursor-pointer"
-              onClick={() => handlePageChange(currentPage + 1)}
-            >
-              {currentPage + 1}
-            </div>
-            <div className="w-8 h-8  rounded-full bg-white text-green1 flex justify-center items-center space-x-[2px]">
-              {Array.from({ length: 3 }).map((item: any, index: number) => (
-                <img src={DotIcon} className="w-[2px] h-[4px]" key={index}/>
-              ))}
-            </div>
-          </>
-        )}
-        <div
-          className="w-8 h-8 rounded-full bg-white text-green1 flex justify-center items-center cursor-pointer"
-          onClick={() => handlePageChange(totalPages)}
-        >
-          {totalPages}
-        </div>
-        <ArrowRight
-          className="text-green1 cursor-pointer"
-          onClick={() => handlePageChange(currentPage + 1)}
-        />
-      </div>
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <Pagination
+        currentPage={currentPage}
+        handlePageChange={handlePageChange}
+        itemsPerPage={itemsPerPage}
+        total={totalCampaigns}
+      />
+
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} campaigns={campaigns} setCampaigns={setCampaigns} />
     </div>
   );
 };

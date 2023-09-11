@@ -1,13 +1,15 @@
 export interface Campaign {
-    id: string;
+    id?: string;
     title: string;
     description: string;
     targetGroup: string;
     status: string;
   }
 
-  export interface CreateCampaignInput {
-    title: string;
-    description: string;
-    targetGroup: string;
+
+  export interface CreateCampaignInputError {
+    titleErr: string;
+    descriptionErr: string;
+    targetGroupErr: string;
+    statusErr: string
   }

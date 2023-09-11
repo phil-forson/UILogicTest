@@ -1,11 +1,18 @@
-import axios from 'axios';
-import { Campaign, CreateCampaignInput } from '../../types';
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { Campaign } from "../../types";
+
+// Initialize Apollo Client
+const client = new ApolloClient({
+  uri: import.meta.env.VITE_BACKENDURL, 
+  cache: new InMemoryCache(),
+});
 
 
-export const createCampaign = async (input: CreateCampaignInput): Promise<Campaign> => {
-  const mutation = `
-    mutation {
-      addCampaign(title: "${input.title}", description: "${input.description}", targetGroup: "${input.targetGroup}") {
+
+export const createCampaign = async (input: Campaign) => {
+  const CREATE_CAMPAIGN = gql`
+    mutation CreateCampaign($title: String!, $description: String!, $targetGroup: String!, $status: String!) {
+      addCampaign(title: $title, description: $description, targetGroup: $targetGroup, status: $status) {
         id
         title
         description
@@ -15,7 +22,20 @@ export const createCampaign = async (input: CreateCampaignInput): Promise<Campai
     }
   `;
 
-  const response = await axios.post(import.meta.env.VITE_BACKENDURL, { query: mutation });
+  try {
+    const { data } = await client.mutate({
+      mutation: CREATE_CAMPAIGN,
+      variables: {
+        title: input.title,
+        description: input.description,
+        targetGroup: input.targetGroup,
+        status: input.status
+      },
+    });
 
-  return response.data.data.addCampaign;
+    return data.addCampaign;
+  } catch (error) {
+    console.error("Error creating campaign:", error);
+    throw error;
+  }
 };
