@@ -24,28 +24,47 @@ const CampaignType = new GraphQLObjectType({
 
 // Defining the root query type
 const RootQuery = new GraphQLObjectType({
-  name: "RootQueryType", // Name of the root query
+  name: "RootQueryType",
   fields: {
     campaigns: {
-      // Query to fetch all campaigns
-      type: new GraphQLList(CampaignType), // Returns a list of CampaignType
+      type: new GraphQLList(CampaignType),
       args: {
         searchTerm: { type: GraphQLString },
-        offset: { type: GraphQLInt }, // Changed from 'skip' to 'offset'
+        offset: { type: GraphQLInt },
         limit: { type: GraphQLInt },
       },
       resolve(parent, args) {
-        // Resolver function to fetch data
-        return Campaign.find({})
-          .skip(args.offset) 
-          .limit(args.limit);
+        let query = {};
+        if (args.searchTerm) {
+          query = {
+            $or: [
+              { title: new RegExp(args.searchTerm, 'i') },
+              { description: new RegExp(args.searchTerm, 'i') },
+              { targetGroup: new RegExp(args.searchTerm, 'i') },
+              { status: new RegExp(args.searchTerm, 'i') }
+            ]
+          };
+        }
+        return Campaign.find(query).skip(args.offset).limit(args.limit);
       },
     },
     totalCampaigns: {
-      // New field to get the total number of campaigns
-      type: GraphQLInt, // Returns an integer
-      resolve() {
-        return Campaign.countDocuments(); // Use Mongoose's countDocuments() to get the total count
+      type: GraphQLInt,
+      args: {
+        searchTerm: { type: GraphQLString },
+      },
+      resolve(parent, args) {
+        let query = {};
+        if (args.searchTerm) {
+          query = {
+            $or: [
+              { title: new RegExp(args.searchTerm, 'i') },
+              { description: new RegExp(args.searchTerm, 'i') },
+              { targetGroup: new RegExp(args.searchTerm, 'i') }
+            ]
+          };
+        }
+        return Campaign.countDocuments(query); 
       },
     },
   },
