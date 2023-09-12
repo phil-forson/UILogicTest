@@ -22,11 +22,11 @@ const Table: React.FC<Props> = ({ data, isLoading }) => {
             <tbody className="bg-white text-primary3">
               {data?.map((item: Campaign, index: number) => (
                 <tr className="border-b-[1px] border-gray1" key={index}>
-                  <td className="p-4">{item.title}</td>
+                  <td className="p-4 sm:max-h-[1.5em] truncate max-w-[2px] vsm:max-w-[15px] sm:max-w-[100px] md:max-w-[153px] bd:max-w-[193px]">{item.title}</td>
                   <td className="p-4 sm:max-h-[1.5em] truncate overflow-auto max-w-[2px] vsm:max-w-[15px] sm:max-w-[100px] md:max-w-[200px] bd:max-w-[300px] lg:max-w-[449px] ">
                     {item.description}
                   </td>
-                  <td className="p-4">{item.targetGroup}</td>
+                  <td className="p-4 sm:max-h-[1.5em] truncate max-w-[2px] vsm:max-w-[15px] sm:max-w-[100px] md:max-w-[153px] bd:max-w-[193px]">{item.targetGroup}</td>
                   <td className="p-4">{item.status}</td>
                 </tr>
               ))}
