@@ -25,8 +25,7 @@ export const getCampaigns  = async (
   bypassCache?: boolean ,
   searchTerm?: string,
 ) => {
-  
-
+  console.log('url ',import.meta.env.VITE_BACKENDURL)
   try {
     const { data } = await client.query({
       query: GET_CAMPAIGNS,
