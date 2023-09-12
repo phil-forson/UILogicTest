@@ -39,7 +39,7 @@ export const Nav: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-between items-center px-[80px] sm:px-[120px] md:px-[160px] lg:px-[250px] py-4 bg-white ">
+    <div className="flex justify-between items-center px-[40px] sm:px-[120px] md:px-[160px] lg:px-[250px] py-4 bg-white ">
       {/* Logo */}
       <div className="text-xl font-bold">
         <img src={Logo} className="w-24 sm:w-auto "/>
