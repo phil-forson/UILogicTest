@@ -70,7 +70,7 @@ export const Nav: React.FC = () => {
             </div>
           )}
         </div>
-        <div className="flex items-center border-[1px] px-[16px] py-[8px] border-primary7 rounded-[4px] ">
+        <div className="flex items-center border-[1px] px-[16px] py-[8px] border-primary7 rounded-[4px] cursor-pointer ">
           <div className="lg:flex flex-col hidden ">
             <div className="text-black2">Buukmenow Demo</div>
             <div className="text-primary8 text-[12px] ">
