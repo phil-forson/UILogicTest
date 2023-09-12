@@ -24,7 +24,7 @@ const Modal: FC<ModalProps> = ({ isOpen, onClose, setCampaignCreated }) => {
         <Backdrop onClick={onClose} />
         <div className="bg-white p-8 rounded-[8px] pointer-events-auto z-50 shadow">
           <ModalHeader text="Create a campaign" />
-          <CreateCampaignForm handleCloseModal={onClose} setCampaignCreated={setCampaignCreated}/>
+          <CreateCampaignForm handleCloseModal={onClose} setCampaignCreated={setCampaignCreated} />
         </div>
       </div>
     </>,

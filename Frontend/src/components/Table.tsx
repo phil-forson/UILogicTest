@@ -38,6 +38,11 @@ const Table: React.FC<Props> = ({ data, isLoading }) => {
             Loading...
           </div>
         )}
+        {data?.length === 0 && !isLoading && (
+          <div className="h-12 bg-white text-primary3 w-[100%] flex justify-center items-center">
+            No data found 
+          </div>
+        )}
       </div>
     </div>
   );

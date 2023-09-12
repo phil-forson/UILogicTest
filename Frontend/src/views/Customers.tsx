@@ -16,67 +16,73 @@ const Customers = () => {
 
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
 
-  const [campaignDataLoading, setCampaignDataLoading] = useState<boolean>(false);
+  const [campaignDataLoading, setCampaignDataLoading] =
+    useState<boolean>(false);
 
-  const [totalCampaigns, setTotalCampaigns] = useState(0);  // New state for total number of campaigns
+  const [totalCampaigns, setTotalCampaigns] = useState(0); // New state for total number of campaigns
 
-  const [searchTerm, setSearchTerm] = useState('');
-
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [isModalOpen, setModalOpen] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [campaignCreated, setCampaignCreated] = useState(false)
+  const [campaignCreated, setCampaignCreated] = useState(false);
 
-  
-  
-
-  
   const handleOpenModal = () => {
     setModalOpen(true);
   };
-  
+
   const handleCloseModal = () => {
     setModalOpen(false);
   };
-  
+
   // Items per page
   const itemsPerPage = 9;
-  
-  
+
   // Function to update the current page
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
-    
   };
-  
-  useEffect(()=>  {
-    if(campaignCreated){
-      fetchCampaigns()
-    }
-  }, [campaignCreated])
-  
-  
+
   useEffect(() => {
-    
+    if (campaignCreated) {
+      setSearchTerm("");
+      fetchCampaigns(true);
+      const lastPage = Math.ceil((totalCampaigns + 1) / itemsPerPage);
+      setCurrentPage(lastPage);
+      setCampaignCreated(false);
+    }
+  }, [campaignCreated]);
+
+  useEffect(() => {
     fetchCampaigns();
   }, [currentPage]);
-  
-  
-  const fetchCampaigns = async () => {
-    setCampaignDataLoading(true)
+
+  const fetchCampaigns = async (bypassCache?: boolean) => {
+    setCampaignDataLoading(true);
     const fetchedCampaigns = await getCampaigns(
       (currentPage - 1) * itemsPerPage,
-      itemsPerPage
+      itemsPerPage,
+      bypassCache,
+      searchTerm
     );
+
     setCampaigns(fetchedCampaigns.campaigns);
-    setTotalCampaigns(fetchedCampaigns.total)
-    setCampaignDataLoading(false)
+    setTotalCampaigns(fetchedCampaigns.total);
+    setCampaignDataLoading(false);
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+  };
+
+  const onSearch = () => {
+    if(searchTerm.length < 1){
+      alert("Search box is empty")
+      return ;
+    }
+    fetchCampaigns();
   };
 
   return (
@@ -85,7 +91,11 @@ const Customers = () => {
       <Subheader text="See all your customers in one place" />
       <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className="pt-[24px] flex justify-between h-auto flex-col lg:flex-row ">
-        <SearchBar searchValue={searchTerm} onChange={handleSearch}  />
+        <SearchBar
+          searchValue={searchTerm}
+          onChange={handleSearch}
+          onSearch={onSearch}
+        />
         <div
           className="bg-green1 p-[16px] space-x-[10px] flex items-center justify-center rounded-[6px] cursor-pointer mt-4 lg:mt-0 w-fit"
           onClick={handleOpenModal}
@@ -97,7 +107,7 @@ const Customers = () => {
         </div>
       </div>
       <div className="pt-[24px]">
-        <Table data={campaigns} isLoading={campaignDataLoading}/>
+        <Table data={campaigns} isLoading={campaignDataLoading} />
       </div>
       <Pagination
         currentPage={currentPage}
@@ -106,7 +116,11 @@ const Customers = () => {
         total={totalCampaigns}
       />
 
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} setCampaignCreated={setCampaignCreated}/>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        setCampaignCreated={setCampaignCreated}
+      />
     </div>
   );
 };

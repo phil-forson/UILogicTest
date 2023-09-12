@@ -14,9 +14,9 @@ const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   handlePageChange,
   total,
-  itemsPerPage
+  itemsPerPage,
 }) => {
-    const totalPages = Math.ceil(total/itemsPerPage)
+  const totalPages = Math.ceil(total / itemsPerPage);
 
   const canGoLeft = currentPage > 1;
   const canGoRight = currentPage < totalPages;
@@ -31,27 +31,119 @@ const Pagination: React.FC<PaginationProps> = ({
         }`}
         onClick={() => canGoLeft && handlePageChange(currentPage - 1)}
       />
-      {/* First Page */}
-      <PageNumberDiv pageNumber={1} currentPage={currentPage} onClick={handlePageChange} />
 
-      {/* Ellipsis before current page */}
-      {currentPage > 2 && <Ellipsis />}
+      {/* Always show the first page */}
+      <PageNumberDiv
+        pageNumber={1}
+        currentPage={currentPage}
+        onClick={handlePageChange}
+      />
 
-      {currentPage === 1 && totalPages > 2 &&       <PageNumberDiv pageNumber={2} currentPage={currentPage} onClick={handlePageChange} />
-}
+      {/* Conditionally show ellipsis before current page */}
+      {totalPages > 3 && currentPage > 2 && <Ellipsis />}
 
-      {/* Show current page if it's not the first or last page */}
-      {currentPage !== 1 && currentPage !== totalPages && (
-        <PageNumberDiv pageNumber={currentPage} currentPage={currentPage} onClick={handlePageChange} />
+      {/* Conditionally show the second page or current page */}
+      {totalPages === 2 && (
+        <PageNumberDiv
+          pageNumber={2}
+          currentPage={currentPage}
+          onClick={handlePageChange}
+        />
+      )}
+      {totalPages === 3 && (
+        <PageNumberDiv
+          pageNumber={2}
+          currentPage={currentPage}
+          onClick={handlePageChange}
+        />
+      )}
+      {totalPages === 4 && currentPage === 1 && (
+        <PageNumberDiv
+          pageNumber={2}
+          currentPage={currentPage}
+          onClick={handlePageChange}
+        />
+      )}
+      {totalPages > 4 && currentPage !== 1 && currentPage !== totalPages && (
+        <PageNumberDiv
+          pageNumber={currentPage}
+          currentPage={currentPage}
+          onClick={handlePageChange}
+        />
       )}
 
-      {/* Show ellipsis if the current page is less than the last page - 1 */}
-      {currentPage < totalPages - 2 && <Ellipsis />}
-
-      {/* Last Page if not first */}
-      {totalPages !== 1 && (
-        <PageNumberDiv pageNumber={totalPages} currentPage={currentPage} onClick={handlePageChange} />
+      {/* Conditionally show the second page or current page */}
+      {totalPages === 2 && (
+        <PageNumberDiv
+          pageNumber={2}
+          currentPage={currentPage}
+          onClick={handlePageChange}
+        />
       )}
+      {totalPages === 3 && (
+        <PageNumberDiv
+          pageNumber={2}
+          currentPage={currentPage}
+          onClick={handlePageChange}
+        />
+      )}
+      {totalPages > 3 && currentPage !== 1 && currentPage !== totalPages && (
+        <PageNumberDiv
+          pageNumber={currentPage}
+          currentPage={currentPage}
+          onClick={handlePageChange}
+        />
+      )}
+
+      {/* Conditionally show ellipsis after current page */}
+      {totalPages > 3 && currentPage < totalPages - 1 && <Ellipsis />}
+
+      {/* Conditionally show the second page or current page */}
+      {totalPages === 2 && (
+        <PageNumberDiv
+          pageNumber={2}
+          currentPage={currentPage}
+          onClick={handlePageChange}
+        />
+      )}
+      {totalPages === 3 && (
+        <PageNumberDiv
+          pageNumber={2}
+          currentPage={currentPage}
+          onClick={handlePageChange}
+        />
+      )}
+      {totalPages === 4 && currentPage === 1 && (
+        <PageNumberDiv
+          pageNumber={2}
+          currentPage={currentPage}
+          onClick={handlePageChange}
+        />
+      )}
+      {totalPages === 4 && currentPage === 4 && (
+        <PageNumberDiv
+          pageNumber={3}
+          currentPage={currentPage}
+          onClick={handlePageChange}
+        />
+      )}
+      {totalPages > 4 && currentPage !== 1 && currentPage !== totalPages && (
+        <PageNumberDiv
+          pageNumber={currentPage}
+          currentPage={currentPage}
+          onClick={handlePageChange}
+        />
+      )}
+
+      {/* Always show the last page if more than one page */}
+      {totalPages > 1 && (
+        <PageNumberDiv
+          pageNumber={totalPages}
+          currentPage={currentPage}
+          onClick={handlePageChange}
+        />
+      )}
+
       <ArrowRight
         className={` ${
           canGoRight

@@ -27,6 +27,8 @@ const CreateCampaignForm: React.FC<Props> = ({
     statusErr: "",
   });
 
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -74,10 +76,14 @@ const CreateCampaignForm: React.FC<Props> = ({
       !newErrors.descriptionErr &&
       !newErrors.targetGroupErr
     ) {
+      setIsLoading(true)
       await createCampaign(input).then((res) => {
-        setCampaignCreated(true);
-        // setCampaigns([...campaigns, input]);
+        if(res){
+          setCampaignCreated(true);
+          alert("Campaign created successfully")
+        }
       });
+      setIsLoading(false)
       handleCloseModal();
     }
   };
@@ -110,8 +116,9 @@ const CreateCampaignForm: React.FC<Props> = ({
       <button
         type="submit"
         className="h-12 bg-green1 flex justify-center items-center rounded-[6px] cursor-pointer outline-none border-none w-full text-white mt-10"
+        disabled={isLoading}
       >
-        Submit your comment
+        {isLoading ? "Loading..." : "Submit your comment"}
       </button>
     </form>
   );

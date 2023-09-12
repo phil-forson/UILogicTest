@@ -31,7 +31,7 @@ export const Nav: React.FC = () => {
                     }`}
       >
         <IconComponent className={isActive ? "text-black1" : "text-primary3"} />
-        <div className="ml-[8px] xl:text-lg decoration-0 cursor-pointer">
+        <div className="ml-[8px] decoration-0 cursor-pointer">
           {label}
         </div>
       </div>

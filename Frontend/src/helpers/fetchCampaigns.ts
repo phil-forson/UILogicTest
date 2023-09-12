@@ -5,32 +5,41 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export const getCampaigns = async (offset: number, limit: number) => {
-  const GET_CAMPAIGNS_AND_TOTAL = gql`
-    query GetCampaignsAndTotal($offset: Int!, $limit: Int!) {
-      campaigns(offset: $offset, limit: $limit) {
+export const GET_CAMPAIGNS = gql`
+    query GetCampaigns($offset: Int!, $limit: Int!, $searchTerm: String) {
+      campaigns(offset: $offset, limit: $limit, searchTerm: $searchTerm) {
         id
         title
         description
         targetGroup
         status
       }
-      totalCampaigns
+      totalCampaigns(searchTerm: $searchTerm)
     }
+
   `;
+
+export const getCampaigns  = async (
+  offset: number,
+  limit: number,
+  bypassCache?: boolean ,
+  searchTerm?: string,
+) => {
+  
 
   try {
     const { data } = await client.query({
-      query: GET_CAMPAIGNS_AND_TOTAL,
-      variables: { offset, limit },
+      query: GET_CAMPAIGNS,
+      variables: { offset, limit, searchTerm },
+      fetchPolicy: bypassCache ? 'network-only' : 'cache-first',  // Set fetchPolicy based on bypassCache
+
     });
     return {
       campaigns: data.campaigns,
-      total: data.totalCampaigns,  // Get the total number of campaigns
+      total: data.totalCampaigns ?? 1,  // Get the total number of campaigns
     };
   } catch (error) {
     console.error("Error fetching campaigns:", error);
-    return { campaigns: [], total: 0 };
+    return { campaigns: [], total: 0};
   }
 };
-
