@@ -1,4 +1,3 @@
-// InputComponent.tsx
 import React from "react";
 
 interface InputProps {

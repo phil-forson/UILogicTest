@@ -3,16 +3,15 @@ import ReactDOM from "react-dom";
 import CreateCampaignForm from "./CampaignForm";
 import ModalHeader from "./ModalHeader";
 import { Backdrop } from "./Backdrop";
-import { Campaign } from "../../types";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  campaigns: Campaign[]
-  setCampaigns: React.Dispatch<React.SetStateAction<Campaign[]>>
+
+  setCampaignCreated: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Modal: FC<ModalProps> = ({ isOpen, onClose, campaigns, setCampaigns }) => {
+const Modal: FC<ModalProps> = ({ isOpen, onClose, setCampaignCreated }) => {
   if (!isOpen) {
     return null;
   }
@@ -25,7 +24,7 @@ const Modal: FC<ModalProps> = ({ isOpen, onClose, campaigns, setCampaigns }) => 
         <Backdrop onClick={onClose} />
         <div className="bg-white p-8 rounded-[8px] pointer-events-auto z-50 shadow">
           <ModalHeader text="Create a campaign" />
-          <CreateCampaignForm handleCloseModal={onClose} campaigns={campaigns} setCampaigns={setCampaigns}/>
+          <CreateCampaignForm handleCloseModal={onClose} setCampaignCreated={setCampaignCreated}/>
         </div>
       </div>
     </>,

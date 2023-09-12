@@ -1,4 +1,3 @@
-// CreateCampaignForm.tsx
 import React, { useState } from "react";
 import { Campaign, CreateCampaignInputError } from "../../types";
 import InputComponent from "./InputComponent";
@@ -8,13 +7,11 @@ import { createCampaign } from "../helpers/createCampaign";
 
 interface Props {
   handleCloseModal: () => void;
-  campaigns: Campaign[];
-  setCampaigns: React.Dispatch<React.SetStateAction<Campaign[]>>;
+  setCampaignCreated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const CreateCampaignForm: React.FC<Props> = ({
   handleCloseModal,
-  campaigns,
-  setCampaigns,
+  setCampaignCreated,
 }) => {
   const [input, setInput] = useState<Campaign>({
     title: "",
@@ -80,7 +77,8 @@ const CreateCampaignForm: React.FC<Props> = ({
     ) {
       await createCampaign(input).then((res) => {
         console.log("res ", res);
-        setCampaigns([...campaigns, input]);
+        setCampaignCreated(true);
+        // setCampaigns([...campaigns, input]);
       });
       handleCloseModal();
     }

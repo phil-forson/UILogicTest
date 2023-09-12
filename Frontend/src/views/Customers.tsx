@@ -27,64 +27,66 @@ const Customers = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [campaignCreated, setCampaignCreated] = useState(false)
 
+  
+  
   useEffect(() => {
     const handleResize = () => {
-      setWindowWidth(window.innerWidth);
       console.log('window width ', window.innerWidth)
     };
-
+    
     // Attach the event listener
     window.addEventListener('resize', handleResize);
-
+    
     // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []); 
-
+  
   const handleOpenModal = () => {
     setModalOpen(true);
   };
-
+  
   const handleCloseModal = () => {
     setModalOpen(false);
   };
-
+  
   // Items per page
   const itemsPerPage = 9;
-
-
-  // Current page state
-
+  
+  
   // Function to update the current page
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
-
+    
   };
-
+  
+  useEffect(()=>  {
+    if(campaignCreated){
+      fetchCampaigns()
+    }
+  }, [campaignCreated])
+  
+  
   useEffect(() => {
-
-  })
-
-  useEffect(() => {
-    const fetchCampaigns = async () => {
-      setCampaignDataLoading(true)
-      const fetchedCampaigns = await getCampaigns(
-        (currentPage - 1) * itemsPerPage,
-        itemsPerPage
-      );
-      console.log('fetched campaigns ', fetchedCampaigns)
-      setCampaigns(fetchedCampaigns.campaigns);
-      setTotalCampaigns(fetchedCampaigns.total)
-      setCampaignDataLoading(false)
-    };
-
+    
     fetchCampaigns();
   }, [currentPage]);
-
   
+  
+  const fetchCampaigns = async () => {
+    setCampaignDataLoading(true)
+    const fetchedCampaigns = await getCampaigns(
+      (currentPage - 1) * itemsPerPage,
+      itemsPerPage
+    );
+    console.log('fetched campaigns ', fetchedCampaigns)
+    setCampaigns(fetchedCampaigns.campaigns);
+    setTotalCampaigns(fetchedCampaigns.total)
+    setCampaignDataLoading(false)
+  };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log('e ', e.target.value)
@@ -118,7 +120,7 @@ const Customers = () => {
         total={totalCampaigns}
       />
 
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} campaigns={campaigns} setCampaigns={setCampaigns} />
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} setCampaignCreated={setCampaignCreated}/>
     </div>
   );
 };

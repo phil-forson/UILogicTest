@@ -4,8 +4,10 @@ export default {
   theme: {
     screens: {
       'xs': '320px',
+      'vsm': '540px',
       'sm': '640px',
       'md': '768px',
+      'bd': '930px',
       'lg': '1270px',
       'xl': '1420px',
       '2xl': '1536px',
