@@ -86,7 +86,7 @@ const Customers = () => {
   };
 
   return (
-    <div className="px-[80px] sm:px-[120px] md:px-[160px] lg:px-[250px] bg-primary5 w-full pt-[32px] pb-[136px] text-[20px] text-black1 min-h-[90vh] ">
+    <div className="px-[40px] sm:px-[120px] md:px-[160px] lg:px-[250px] bg-primary5 w-full pt-[32px] pb-[136px] text-[20px] text-black1 min-h-[90vh] ">
       <Header text="Customers" />
       <Subheader text="See all your customers in one place" />
       <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />

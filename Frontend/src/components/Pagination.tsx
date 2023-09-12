@@ -113,13 +113,7 @@ const Pagination: React.FC<PaginationProps> = ({
           onClick={handlePageChange}
         />
       )}
-      {totalPages === 4 && currentPage === 1 && (
-        <PageNumberDiv
-          pageNumber={2}
-          currentPage={currentPage}
-          onClick={handlePageChange}
-        />
-      )}
+      
       {totalPages === 4 && currentPage === 4 && (
         <PageNumberDiv
           pageNumber={3}

@@ -42,7 +42,7 @@ export const Nav: React.FC = () => {
     <div className="flex justify-between items-center px-[80px] sm:px-[120px] md:px-[160px] lg:px-[250px] py-4 bg-white ">
       {/* Logo */}
       <div className="text-xl font-bold">
-        <img src={Logo} />
+        <img src={Logo} className="w-24 sm:w-auto "/>
       </div>
 
       {/* Links */}
@@ -54,11 +54,11 @@ export const Nav: React.FC = () => {
       </div>
 
       {/* User Info */}
-      <div className="flex justify-between space-x-9">
+      <div className="flex justify-between space-x-3 vsm:space-x-9">
         <div className="lg:hidden flex items-center relative">
           <img
             src={MenuIcon}
-            className="text-primary3 cursor-pointer"
+            className="text-primary3 cursor-pointer w-7 vsm:w-auto"
             onClick={() => setMenuOpen(!menuOpen)}
           />
           {menuOpen && (
