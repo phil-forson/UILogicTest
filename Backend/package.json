@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "UI & Logic Test For Polymorph Labs",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
     "stat": "node src/server.js",
     "server": "nodemon src/server.js"
