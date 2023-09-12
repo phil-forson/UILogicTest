@@ -53,7 +53,7 @@ export const Nav: React.FC = () => {
         {renderNavLink("Services", ServicesIcon)}
       </div>
 
-      {/* User Info */}
+      {/* User Info && Menuicon */}
       <div className="flex justify-between space-x-3 vsm:space-x-9">
         <div className="lg:hidden flex items-center relative">
           <img
