@@ -4,7 +4,7 @@
   "description": "UI & Logic Test For Polymorph Labs",
   "main": "dist/server.js",
   "scripts": {
-    "start": "node dist/server.ts",
+    "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
     "build": "tsc",
     "server": "nodemon --watch 'src/**/*.ts' --exec \"ts-node\" src/server.ts"
