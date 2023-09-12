@@ -31,19 +31,7 @@ const Customers = () => {
 
   
   
-  useEffect(() => {
-    const handleResize = () => {
-      console.log('window width ', window.innerWidth)
-    };
-    
-    // Attach the event listener
-    window.addEventListener('resize', handleResize);
-    
-    // Cleanup
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []); 
+
   
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -82,14 +70,12 @@ const Customers = () => {
       (currentPage - 1) * itemsPerPage,
       itemsPerPage
     );
-    console.log('fetched campaigns ', fetchedCampaigns)
     setCampaigns(fetchedCampaigns.campaigns);
     setTotalCampaigns(fetchedCampaigns.total)
     setCampaignDataLoading(false)
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('e ', e.target.value)
     setSearchTerm(e.target.value);
   };
 

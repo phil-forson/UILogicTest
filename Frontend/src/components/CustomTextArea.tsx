@@ -39,6 +39,7 @@ const CustomTextArea: FC<TextAreaProps> = ({
         onChange={handleTextChange}
         className="border-[2px] h-[120px] lg:h-[240px] p-4 border-gray2 rounded-[6px] outline-none w-[300px] md:w-[380px] lg:w-[416px] resize-none"
         placeholder={placeholder}
+        maxLength={maxWords}
         name={name}
       />
       <span className="flex justify-end text-primary3">

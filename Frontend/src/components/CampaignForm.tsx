@@ -31,7 +31,6 @@ const CreateCampaignForm: React.FC<Props> = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    console.log("name ", name, "target ", value);
     setInput({
       ...input,
       [name]: value,
@@ -76,7 +75,6 @@ const CreateCampaignForm: React.FC<Props> = ({
       !newErrors.targetGroupErr
     ) {
       await createCampaign(input).then((res) => {
-        console.log("res ", res);
         setCampaignCreated(true);
         // setCampaigns([...campaigns, input]);
       });
