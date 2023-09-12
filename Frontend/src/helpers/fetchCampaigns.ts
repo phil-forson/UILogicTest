@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: import.meta.env.VITE_BACKENDURL,
+  uri: 'https://lazy-wasp-handbag.cyclic.app/graphql',
   cache: new InMemoryCache(),
 });
 
@@ -25,7 +25,6 @@ export const getCampaigns  = async (
   bypassCache?: boolean ,
   searchTerm?: string,
 ) => {
-  console.log('url ',import.meta.env.VITE_BACKENDURL)
   try {
     const { data } = await client.query({
       query: GET_CAMPAIGNS,

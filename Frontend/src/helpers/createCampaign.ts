@@ -3,7 +3,7 @@ import { Campaign } from "../../types";
 
 
 const client = new ApolloClient({
-  uri: import.meta.env.VITE_BACKENDURL,
+  uri: 'https://lazy-wasp-handbag.cyclic.app/graphql',
   cache: new InMemoryCache(),
 });
 
