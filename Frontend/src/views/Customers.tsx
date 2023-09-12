@@ -49,8 +49,6 @@ const Customers = () => {
     if (campaignCreated) {
       setSearchTerm("");
       fetchCampaigns(true);
-      const lastPage = Math.ceil((totalCampaigns + 1) / itemsPerPage);
-      setCurrentPage(lastPage);
       setCampaignCreated(false);
     }
   }, [campaignCreated]);
@@ -67,6 +65,10 @@ const Customers = () => {
       bypassCache,
       searchTerm
     );
+
+    if(bypassCache){
+      setCurrentPage(fetchedCampaigns.total)
+    }
 
     setCampaigns(fetchedCampaigns.campaigns);
     setTotalCampaigns(fetchedCampaigns.total);
