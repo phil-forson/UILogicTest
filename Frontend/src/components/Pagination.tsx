@@ -43,13 +43,6 @@ const Pagination: React.FC<PaginationProps> = ({
       {totalPages > 3 && currentPage > 2 && <Ellipsis />}
 
       {/* Conditionally show the second page or current page */}
-      {totalPages === 2 && (
-        <PageNumberDiv
-          pageNumber={2}
-          currentPage={currentPage}
-          onClick={handlePageChange}
-        />
-      )}
       {totalPages === 3 && (
         <PageNumberDiv
           pageNumber={2}
@@ -73,13 +66,7 @@ const Pagination: React.FC<PaginationProps> = ({
       )}
 
       {/* Conditionally show the second page or current page */}
-      {totalPages === 2 && (
-        <PageNumberDiv
-          pageNumber={2}
-          currentPage={currentPage}
-          onClick={handlePageChange}
-        />
-      )}
+      
       {totalPages === 3 && (
         <PageNumberDiv
           pageNumber={2}
@@ -130,7 +117,7 @@ const Pagination: React.FC<PaginationProps> = ({
       )}
 
       {/* Always show the last page if more than one page */}
-      {totalPages > 1 && (
+      {totalPages > 1 && totalPages !== 2 && (
         <PageNumberDiv
           pageNumber={totalPages}
           currentPage={currentPage}
