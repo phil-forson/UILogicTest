@@ -80,10 +80,6 @@ const Customers = () => {
   };
 
   const onSearch = () => {
-    if(searchTerm.length < 1){
-      alert("Search box is empty")
-      return ;
-    }
     fetchCampaigns();
   };
 
